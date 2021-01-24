@@ -1,0 +1,46 @@
+{% extends 'authentication/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="card mt-5">
+
+                <div class="card-body">
+                    <div class="card-title py-2">
+                        <h2> Register Form</h2>
+                    </div>
+
+                    {% include 'partials/_alert.html' %}
+
+                    <form action="{% url 'register' %}" method="post">
+                        {% csrf_token %}
+                        <div class="input-group mb-3">
+                            <input type="text" id="f-username" class="form-control" placeholder="Username">
+                            <span class="username-error invalid-feedback" style="display: none"></span>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <input type="email" id="f-email" class="form-control" placeholder="Email">
+                            <span class="email-error invalid-feedback" style="display: none"></span>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <input type="password" id="f-password" class="form-control" placeholder="Password">
+                        </div>
+
+                        <small class="float-end pb-1 toggle-password">SHOW</small>
+
+                        <div class="input-group d-grid gap-2 mb-3">
+                            <button type="submit" class="btn btn-outline-primary">Register</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+
+    <script src="{% static 'js/user_validator.js' %}"></script>
+{% endblock %}

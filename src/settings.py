@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+from django.contrib import messages
 
 import os
 
@@ -39,7 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # CUSTOM APPS
     'src.expenses',
+    'src.authentication',
 ]
 
 MIDDLEWARE = [
@@ -126,3 +130,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'src/static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+# Custom messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}
