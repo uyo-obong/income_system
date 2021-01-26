@@ -4,6 +4,7 @@ const passwordField = document.querySelector('#f-password')
 const usernameErrorField = document.querySelector('.username-error')
 const emailErrorField = document.querySelector('.email-error')
 const togglePassword = document.querySelector('.toggle-password')
+const disableBtn = document.querySelector('.disable-btn')
 
 const handleToggle = (e) => {
     if (togglePassword.textContent === 'SHOW') {
@@ -11,11 +12,13 @@ const handleToggle = (e) => {
         passwordField.setAttribute('type', 'text')
     } else {
         togglePassword.textContent = 'SHOW'
-          passwordField.setAttribute('type', 'password')
+        passwordField.setAttribute('type', 'password')
     }
 }
 
 togglePassword.addEventListener('click', handleToggle)
+
+
 
 emailField.addEventListener('keyup', (e) => {
     const email = e.target.value
@@ -30,11 +33,12 @@ emailField.addEventListener('keyup', (e) => {
         }).then((res) => res.json()).then((data) => {
 
             if (data.email_error) {
+                disableBtn.disabled = true
                 emailField.classList.add("is-invalid")
                 emailErrorField.style.display = 'block'
                 emailErrorField.innerHTML= `${data.email_error}`
             } else {
-                console.log(data)
+                disableBtn.disabled = false
                 emailField.classList.add("is-valid")
             }
         })
@@ -55,11 +59,13 @@ usernameField.addEventListener('keyup', (e) => {
             method: 'POST',
         }).then((res) => res.json()).then((data) => {
             if (data.username_error) {
+                disableBtn.disabled = true
                 usernameField.classList.add("is-invalid")
                 usernameErrorField.style.display = 'block'
                 usernameErrorField.innerHTML= `${data.username_error}`
             } else {
                 usernameField.classList.add("is-valid")
+                disableBtn.disabled = false
             }
         })
     }

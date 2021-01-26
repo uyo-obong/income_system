@@ -1,19 +1,4 @@
-from django.contrib.auth.models import User
-from validate_email import validate_email
-from django.contrib import messages
-from django.shortcuts import render
-from django.http import JsonResponse
-from django.views import View
-import json
-
-
-class RegistrationView(View):
-    def get(self, request):
-        return render(request, 'authentication/register.html', context={})
-
-    def post(self, request):
-        messages.success(request, 'Please check your email')
-        return render(request, 'authentication/register.html', context={})
+from .imports import *
 
 
 class UsernameValidation(View):
