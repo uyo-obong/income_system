@@ -10,6 +10,7 @@ from validate_email import validate_email
 from django.contrib import messages
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.views import View
 from ..utils import token_generator
