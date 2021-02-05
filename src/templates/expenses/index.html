@@ -1,16 +1,70 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="mt-2">
-    <h1>Hello head</h1>
-        <ul class="list-group">
-            <li class="list-group-item">Hello world</li>
-            <li class="list-group-item">Hello world</li>
-            <li class="list-group-item">Hello world</li>
-            <li class="list-group-item">Hello world</li>
-            <li class="list-group-item">Hello world</li>
-        </ul>
+    <div class="row">
+        <div class="col-md-10">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active" aria-current="page">Home</li>
+                </ol>
+            </nav>
+        </div>
 
+        <div class="col-md-2">
+            <a href="{% url 'add_expenses' %}" class="float-end btn btn-primary">Add Expenses</a>
+        </div>
+
+        <div class="container">
+
+            {% include 'partials/_alert.html' %}
+
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if expenses.count > 0 %}
+                    {% for expense in page_obj %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>₦{{ expense.amount }}</td>
+                            <td>{{ expense.category }}</td>
+                            <td>{{ expense.description }}</td>
+                            <td>{{ expense.date }}</td>
+                            <td>
+                                <a href="{% url 'update_expenses' expense.id %}" class="btn btn-primary btn-sm">Update</a>
+                                <a href="{% url 'delete_expenses' expense.id %}" class="btn btn-danger btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+            <nav aria-label="Page navigation example">
+                <div class="justify-content-start">
+                    Showing page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </div>
+
+                <ul class="pagination justify-content-end mr-auto">
+                    {% if page_obj.has_previous %}
+                        <li {% if page_ob.number == 1 %} class="page-item active" {% endif %}><a class="page-link" href="?page=1">&laquo;</a> </li>
+                        <li class="page-item"> <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a> </li>
+                    {% endif %}
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item"> <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a> </li>
+
+                        <li class="page-item"> <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a> </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
     </div>
-
 {% endblock content %}
