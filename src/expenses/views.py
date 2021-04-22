@@ -1,8 +1,10 @@
+import json
 import pdb
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic.base import View
@@ -90,3 +92,13 @@ class ExpenseDeleteView(View):
         expense.delete()
         messages.success(request, 'Expense has been deleted')
         return redirect('index')
+
+
+class SearchView(View):
+    def post(self, request):
+        search_str = json.loads(request.body).get('searchText')
+
+        expenses = Expenses.objects.filter(amount__istartswith=search_str, owner=request.user) or Expenses.objects.filter(date__istartswith=search_str, owner=request.user) or Expenses.objects.filter(description__icontains=search_str, owner=request.user) or Expenses.objects.filter(category__icontains=search_str, owner=request.user)
+
+        data = expenses.values()
+        return JsonResponse(list(data), safe=False)
